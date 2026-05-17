@@ -3,30 +3,35 @@ import { prisma } from "@/lib/prisma";
 
 function getClientIp(req: Request): string {
   const forwarded = req.headers.get("x-forwarded-for");
-  if (forwarded) return forwarded.split(",")[0].trim();
+  if (forwarded) {
+    return forwarded.split(",")[0].trim();
+  }
   return req.headers.get("x-real-ip") || "127.0.0.1";
 }
 
 export async function GET(req: Request) {
   try {
-    const timeThreshold = new Date(Date.now() - 15 * 1000);
-    await prisma.activeSession.deleteMany({
-      where: { updatedAt: { lt: timeThreshold } }
-    });
+    if (Math.random() < 0.1) {
+      const timeThreshold = new Date(Date.now() - 15 * 1000);
+      await prisma.activeSession.deleteMany({
+        where: { updatedAt: { lt: timeThreshold } }
+      }).catch(() => {});
+    }
 
-    const activeUsers = await prisma.activeSession.count();
-    const totalSavedAccounts = await prisma.savedAccount.count();      
-    const redeemStat = await prisma.redeemStatistic.upsert({
-      where: { id: "global_stats" },
-      update: {},
-      create: { id: "global_stats", count: 0 }
-    });
-    const totalRedeemed = redeemStat.count;
+    const [activeUsers, totalSavedAccounts, redeemStat] = await prisma.$transaction([
+      prisma.activeSession.count(),
+      prisma.savedAccount.count(),
+      prisma.redeemStatistic.upsert({
+        where: { id: "global_stats" },
+        update: {},
+        create: { id: "global_stats", count: 0 }
+      })
+    ]);
 
     return NextResponse.json({
       activeUsers,
       totalSavedAccounts,
-      totalRedeemed
+      totalRedeemed: redeemStat.count
     });
   } catch (error) {
     return NextResponse.json({ error: "Lỗi hệ thống khi lấy thống kê" }, { status: 500 });
@@ -35,7 +40,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const body = await request.json().catch(() => ({}));
     const { action, accountCount, roleId, serverID, roleName, level } = body;
     const ip = getClientIp(req);
 
@@ -90,18 +95,18 @@ export async function POST(req: Request) {
 
     if (action === "increment-visitor") {
       const todayStr = new Date().toISOString().split("T")[0];
-
-      await prisma.redeemStatistic.upsert({
-        where: { id: "total_visitors" },
-        update: { count: { increment: 1 } },
-        create: { id: "total_visitors", count: 1 }
-      });
-
-      await prisma.redeemStatistic.upsert({
-        where: { id: `visitors_${todayStr}` },
-        update: { count: { increment: 1 } },
-        create: { id: `visitors_${todayStr}`, count: 1 }
-      });
+      await prisma.$transaction([
+        prisma.redeemStatistic.upsert({
+          where: { id: "total_visitors" },
+          update: { count: { increment: 1 } },
+          create: { id: "total_visitors", count: 1 }
+        }),
+        prisma.redeemStatistic.upsert({
+          where: { id: `visitors_${todayStr}` },
+          update: { count: { increment: 1 } },
+          create: { id: `visitors_${todayStr}`, count: 1 }
+        })
+      ]);
       return NextResponse.json({ success: true });
     }
 
@@ -109,8 +114,7 @@ export async function POST(req: Request) {
       const codesData = await prisma.giftcode.findMany({
         orderBy: { createdAt: "asc" }
       });
-      const codeList = codesData.map(c => c.code);
-      return NextResponse.json({ codes: codeList });
+      return NextResponse.json({ codes: codesData.map(c => c.code) });
     }
 
     return NextResponse.json({ error: "Hành động không hợp lệ" }, { status: 400 });
@@ -118,3 +122,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Lỗi xử lý dữ liệu thống kê" }, { status: 500 });
   }
 }
+

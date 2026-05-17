@@ -2,10 +2,21 @@ import { Radio, Database, Zap } from "lucide-react";
 import { SystemStats } from "../types/redeem";
 
 interface SystemStatsBarProps {
-  stats: SystemStats;
+  stats: SystemStats | null;
 }
 
 export default function SystemStatsBar({ stats }: SystemStatsBarProps) {
+  if (!stats) {
+    return (
+      <div className="flex flex-wrap items-center gap-2 mt-1">
+        <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-zinc-50 text-zinc-500 dark:bg-zinc-900/40 dark:text-zinc-400">
+          <Radio size={10} className="animate-pulse" />
+          Đang tải ...
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-wrap items-center gap-2 mt-1">
       <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
