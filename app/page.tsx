@@ -129,7 +129,7 @@ export default function Home() {
         }
         .dark .swiper-pagination-bullet-active {
           background: #f4f4f5 !important;
-        }
+          }
         `,
       ],
     };
@@ -242,6 +242,11 @@ export default function Home() {
       updated[emptyIndex] = trimmedId;
       setRoleIds(updated);
     } else {
+      if (roleIds.length >= 2) {
+        alert("Chỉ được nhập tối đa 2 ID nhân vật!");
+        setIsModalOpen(false);
+        return;
+      }
       setRoleIds([...roleIds, trimmedId]);
     }
     setIsModalOpen(false);
@@ -259,6 +264,10 @@ export default function Home() {
   };
 
   const handleAddIdInput = () => {
+    if (roleIds.length >= 2) {
+      alert("Chỉ được nhập tối đa 2 ID nhân vật!");
+      return;
+    }
     setRoleIds([...roleIds, ""]);
   };
 
