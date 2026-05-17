@@ -9,6 +9,7 @@ export async function POST(request: Request) {
 
     const staticAgent = new HttpsProxyAgent("http://Proxy_ifxawsni:52YRbtdprH@163.223.15.120:40290");
     const rotateAgent = new HttpsProxyAgent("http://sp07v2-37442:GTNTI@sp07v2-03.proxy.mkvn.net:37442");
+    const fallbackStatuses = [402, 403, 407, 429, 502];
 
     if (action === "check-info") {
       const params = new URLSearchParams();
@@ -21,6 +22,9 @@ export async function POST(request: Request) {
       params.append("getVgaId", "0");
 
       let response;
+      let useStatic = false;
+      let useRotate = false;
+
       try {
         response = await axios.post(
           "https://billing.vnggames.com/fe/api/auth/quick",
@@ -35,8 +39,15 @@ export async function POST(request: Request) {
             timeout: 10000
           }
         );
-      } catch (err) {
-        console.warn("-> [Check-Info] IP Hệ thống lỗi, chuyển sang Proxy tĩnh IPv4...");
+      } catch (err: any) {
+        const status = err.response?.status;
+        if (status && !fallbackStatuses.includes(status)) {
+          throw err;
+        }
+        useStatic = true;
+      }
+
+      if (useStatic) {
         try {
           response = await axios.post(
             "https://billing.vnggames.com/fe/api/auth/quick",
@@ -53,29 +64,40 @@ export async function POST(request: Request) {
               timeout: 10000
             }
           );
-        } catch (err2) {
-          console.warn("-> [Check-Info] Proxy tĩnh lỗi, chuyển sang Proxy xoay MKVN...");
-          response = await axios.post(
-            "https://billing.vnggames.com/fe/api/auth/quick",
-            params.toString(),
-            {
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "Origin": "https://shop.vnggames.com",
-                "Referer": "https://shop.vnggames.com/",
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-              },
-              httpsAgent: rotateAgent,
-              proxy: false,
-              timeout: 10000
-            }
-          );
+        } catch (err2: any) {
+          const status2 = err2.response?.status;
+          if (status2 && !fallbackStatuses.includes(status2)) {
+            throw err2;
+          }
+          useRotate = true;
         }
       }
+
+      if (useRotate) {
+        response = await axios.post(
+          "https://billing.vnggames.com/fe/api/auth/quick",
+          params.toString(),
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              "Origin": "https://shop.vnggames.com",
+              "Referer": "https://shop.vnggames.com/",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            },
+            httpsAgent: rotateAgent,
+            proxy: false,
+            timeout: 10000
+          }
+        );
+      }
+
       return NextResponse.json(response.data);
     }
 
     let response;
+    let useStatic = false;
+    let useRotate = false;
+
     const redeemPayload = {
       _targetServerId: parseInt(serverId) || parseInt(roleId) || 0,
       serverId: serverId || "101",
@@ -100,34 +122,42 @@ export async function POST(request: Request) {
         redeemPayload,
         { headers: redeemHeaders, timeout: 10000 }
       );
-    } catch (err) {
-      console.warn("-> [Redeem] IP Hệ thống lỗi, chuyển sang Proxy tĩnh IPv4...");
+    } catch (err: any) {
+      const status = err.response?.status;
+      if (status && !fallbackStatuses.includes(status)) {
+        throw err;
+      }
+      useStatic = true;
+    }
+
+    if (useStatic) {
       try {
         response = await axios.post(
           "https://vgrapi-sea.vnggames.com/coordinator/api/v1/code/redeem",
           redeemPayload,
           { headers: redeemHeaders, httpsAgent: staticAgent, proxy: false, timeout: 10000 }
         );
-      } catch (err2) {
-        console.warn("-> [Redeem] Proxy tĩnh lỗi, chuyển sang Proxy xoay MKVN...");
-        response = await axios.post(
-          "https://vgrapi-sea.vnggames.com/coordinator/api/v1/code/redeem",
-          redeemPayload,
-          { headers: redeemHeaders, httpsAgent: rotateAgent, proxy: false, timeout: 10000 }
-        );
+      } catch (err2: any) {
+        const status2 = err2.response?.status;
+        if (status2 && !fallbackStatuses.includes(status2)) {
+          throw err2;
+        }
+        useRotate = true;
       }
     }
+
+    if (useRotate) {
+      response = await axios.post(
+        "https://vgrapi-sea.vnggames.com/coordinator/api/v1/code/redeem",
+        redeemPayload,
+        { headers: redeemHeaders, httpsAgent: rotateAgent, proxy: false, timeout: 10000 }
+      );
+    }
+
     return NextResponse.json(response.data);
   } catch (error: any) {
-    console.error("-> [Fatal Error] Tất cả các tầng kết nối đều thất bại:");
-    if (error.response) {
-      console.error(`   Status: ${error.response.status} | Data:`, error.response.data);
-    } else {
-      console.error(`   Message: ${error.message}`);
-    }
     const status = error.response?.status || 500;
     const data = error.response?.data || { message: "Lỗi kết nối API" };
     return NextResponse.json(data, { status });
   }
 }
-
