@@ -283,7 +283,9 @@ export default function Home() {
               roleName: displayName,
             });
 
-            const contentType = response.headers["content-type"] || "";
+            const rawContentType = response.headers["content-type"];
+            const contentType = typeof rawContentType === "string" ? rawContentType : "";
+
             if (typeof response.data !== "object" || (contentType && !contentType.includes("application/json"))) {
               setResults((prev) =>
                 prev.map((item) =>
@@ -305,7 +307,8 @@ export default function Home() {
             );
           } catch (error: any) {
             const response = error.response;
-            const contentType = response?.headers?.["content-type"] || "";
+            const rawContentType = response?.headers?.["content-type"];
+            const contentType = typeof rawContentType === "string" ? rawContentType : "";
 
             if (response && (!contentType.includes("application/json") || typeof response.data !== "object")) {
               setResults((prev) =>
@@ -346,7 +349,6 @@ export default function Home() {
     for (let t = 0; t < activeWorkers; t++) {
       workers.push(worker());
     }
-
     await Promise.all(workers);
     setLoading(false);
   };
@@ -388,7 +390,6 @@ export default function Home() {
           </button>
         </div>
       </nav>
-
       <main className="mx-auto max-w-2xl px-6 py-12">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
@@ -419,7 +420,6 @@ export default function Home() {
                 </button>
               </div>
             </div>
-
             <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
               {roleIds.map((id, index) => (
                 <div key={index} className="flex items-center gap-2">
@@ -446,7 +446,6 @@ export default function Home() {
               ))}
             </div>
           </div>
-
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label htmlFor="codes" className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
@@ -462,7 +461,6 @@ export default function Home() {
                 Sử dụng Code Sẵn
               </button>
             </div>
-
             <div className="relative">
               <textarea
                 id="codes"
@@ -474,7 +472,6 @@ export default function Home() {
                 placeholder="Mã CODE 1&#10;Mã CODE 2&#10;Mã CODE 3..."
                 className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 font-mono text-base outline-none transition-all placeholder-zinc-400 dark:placeholder-zinc-500 focus:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900 dark:focus:border-zinc-700 resize-none overflow-y-auto"
               />
-
               {shouldShowToggle && (
                 <div className="absolute bottom-3 right-3 flex items-center z-10">
                   <button
@@ -496,7 +493,6 @@ export default function Home() {
               )}
             </div>
           </div>
-
           <button
             type="submit"
             disabled={loading || roleIds.filter(id => id.trim() !== "").length === 0 || !codes.trim()}
@@ -512,7 +508,6 @@ export default function Home() {
             )}
           </button>
         </form>
-
         {results.length > 0 && (
           <div className="mt-12 space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-200 pb-2 dark:border-zinc-800">
@@ -530,7 +525,6 @@ export default function Home() {
                 <span className="text-red-500 dark:text-red-400">Thất bại: {currentError}</span>
               </div>
             </div>
-
             <div className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900 shadow-sm overflow-x-auto scrollbar-thin">
               <div className="space-y-2 font-mono text-xs relative min-w-[500px]">
                 {visibleResults.map((res, index) => (
@@ -557,7 +551,6 @@ export default function Home() {
                     </div>
                   </div>
                 ))}
-
                 {shouldShowLogsToggle && (
                   <div className="pt-3 flex justify-center border-t border-zinc-100 dark:border-zinc-800/50 mt-2 sticky left-0 right-0">
                     <button
@@ -582,7 +575,6 @@ export default function Home() {
           </div>
         )}
       </main>
-
       {isDonateOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
           <div className="w-full max-w-sm rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 shadow-xl transition-all">
@@ -592,7 +584,6 @@ export default function Home() {
             <p className="text-xs text-zinc-500 dark:text-zinc-400 text-center mb-5">
               Nếu thấy tool hữu ích hãy donate bằng
             </p>
-
             <div className="flex justify-center mb-5">
               <div className="p-2 bg-white rounded-2xl border border-zinc-100 dark:border-zinc-800">
                 <img
@@ -602,7 +593,6 @@ export default function Home() {
                 />
               </div>
             </div>
-
             <div className="space-y-2.5 text-xs font-mono bg-zinc-50 dark:bg-zinc-950 p-3.5 rounded-2xl border border-zinc-100 dark:border-zinc-800/60">
               <div className="flex justify-between items-center">
                 <span className="text-zinc-400">Ngân hàng:</span>
@@ -628,13 +618,11 @@ export default function Home() {
                 </button>
               </div>
             </div>
-
             {copied && (
               <p className="text-center text-[11px] font-medium text-green-500 mt-2.5 animate-fade-in">
                 Đã sao chép số tài khoản thành công!
               </p>
             )}
-
             <button
               type="button"
               onClick={() => {
@@ -648,7 +636,6 @@ export default function Home() {
           </div>
         </div>
       )}
-
       <AccountModal
         isOpen={isModalOpen}
         onClose={() => {
