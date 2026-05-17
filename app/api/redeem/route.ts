@@ -2,32 +2,13 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 import { HttpsProxyAgent } from "https-proxy-agent";
 
-let currentRotatingProxyIp = "";
-let lastRotateTime = 0;
-const ROTATE_INTERVAL = 50 * 1000;
-
-async function getRotatingProxy(): Promise<string | null> {
-  const now = Date.now();
-  if (currentRotatingProxyIp && now - lastRotateTime < ROTATE_INTERVAL) {
-    return currentRotatingProxyIp;
-  }
-  try {
-    const res = await axios.get("https://proxy.mkvn.net/sp07v2/37442-EHYNGRXFLC", { timeout: 5000 });
-    if (res.data && res.data.ipreal) {
-      currentRotatingProxyIp = res.data.ipreal;
-      lastRotateTime = now;
-      return currentRotatingProxyIp;
-    }
-  } catch (e) {
-    console.error("-> Lỗi khi gọi API lấy IP xoay MKVN:", e instanceof Error ? e.message : e);
-  }
-  return currentRotatingProxyIp || null;
-}
-
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { action, roleId, code, serverId, roleName } = body;
+
+    const staticAgent = new HttpsProxyAgent("http://Proxy_ifxawsni:52YRbtdprH@163.223.15.120:40290");
+    const rotateAgent = new HttpsProxyAgent("http://sp07v2-37442:GTNTI@sp07v2-03.proxy.mkvn.net:37442");
 
     if (action === "check-info") {
       const params = new URLSearchParams();
@@ -57,7 +38,6 @@ export async function POST(request: Request) {
       } catch (err) {
         console.warn("-> [Check-Info] IP Hệ thống lỗi, chuyển sang Proxy tĩnh IPv4...");
         try {
-          const staticAgent = new HttpsProxyAgent("http://Proxy_ifxawsni:52YRbtdprH@163.223.15.120:40290");
           response = await axios.post(
             "https://billing.vnggames.com/fe/api/auth/quick",
             params.toString(),
@@ -75,10 +55,6 @@ export async function POST(request: Request) {
           );
         } catch (err2) {
           console.warn("-> [Check-Info] Proxy tĩnh lỗi, chuyển sang Proxy xoay MKVN...");
-          const rotatingIp = await getRotatingProxy();
-          if (!rotatingIp) throw err2;
-          const rotateUrl = rotatingIp.includes(":") ? `http://${rotatingIp}` : `http://${rotatingIp}:80`;
-          const rotateAgent = new HttpsProxyAgent(rotateUrl);
           response = await axios.post(
             "https://billing.vnggames.com/fe/api/auth/quick",
             params.toString(),
@@ -127,7 +103,6 @@ export async function POST(request: Request) {
     } catch (err) {
       console.warn("-> [Redeem] IP Hệ thống lỗi, chuyển sang Proxy tĩnh IPv4...");
       try {
-        const staticAgent = new HttpsProxyAgent("http://Proxy_ifxawsni:52YRbtdprH@163.223.15.120:40290");
         response = await axios.post(
           "https://vgrapi-sea.vnggames.com/coordinator/api/v1/code/redeem",
           redeemPayload,
@@ -135,10 +110,6 @@ export async function POST(request: Request) {
         );
       } catch (err2) {
         console.warn("-> [Redeem] Proxy tĩnh lỗi, chuyển sang Proxy xoay MKVN...");
-        const rotatingIp = await getRotatingProxy();
-        if (!rotatingIp) throw err2;
-        const rotateUrl = rotatingIp.includes(":") ? `http://${rotatingIp}` : `http://${rotatingIp}:80`;
-        const rotateAgent = new HttpsProxyAgent(rotateUrl);
         response = await axios.post(
           "https://vgrapi-sea.vnggames.com/coordinator/api/v1/code/redeem",
           redeemPayload,
