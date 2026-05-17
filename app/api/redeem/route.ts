@@ -91,6 +91,10 @@ export async function POST(request: Request) {
         );
       }
 
+      if (!response) {
+        throw new Error("Không thể kết nối đến máy chủ xác thực");
+      }
+
       return NextResponse.json(response.data);
     }
 
@@ -152,6 +156,10 @@ export async function POST(request: Request) {
         redeemPayload,
         { headers: redeemHeaders, httpsAgent: rotateAgent, proxy: false, timeout: 10000 }
       );
+    }
+
+    if (!response) {
+      throw new Error("Không thể kết nối đến máy chủ kích hoạt mã");
     }
 
     return NextResponse.json(response.data);
