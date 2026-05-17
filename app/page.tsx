@@ -9,9 +9,8 @@ import { LogResult, SavedAccount, SystemStats } from "./types/redeem";
 import SystemStatsBar from "./components/SystemStatsBar";
 import AccountModal from "./components/AccountModal";
 
-// Khai báo kiểu dữ liệu cho Swiper Elements để TypeScript không báo lỗi build
 declare global {
-  namespace JSX {
+  namespace React.JSX {
     interface IntrinsicElements {
       'swiper-container': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & {
         ref?: React.RefObject<any>;
