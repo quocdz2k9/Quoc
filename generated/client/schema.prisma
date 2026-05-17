@@ -39,3 +39,10 @@ model Giftcode {
   code      String   @unique
   createdAt DateTime @default(now())
 }
+
+model SystemNotice {
+  id        String   @id @default("system-config")
+  content   String   @default("")
+  isActive  Boolean  @default(false)
+  updatedAt DateTime @updatedAt
+}

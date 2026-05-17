@@ -153,6 +153,13 @@ exports.Prisma.GiftcodeScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.SystemNoticeScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  isActive: 'isActive',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -169,7 +176,8 @@ exports.Prisma.ModelName = {
   SavedAccountCount: 'SavedAccountCount',
   RedeemStatistic: 'RedeemStatistic',
   SavedAccount: 'SavedAccount',
-  Giftcode: 'Giftcode'
+  Giftcode: 'Giftcode',
+  SystemNotice: 'SystemNotice'
 };
 
 /**

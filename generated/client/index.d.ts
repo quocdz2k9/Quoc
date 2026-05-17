@@ -38,6 +38,11 @@ export type SavedAccount = $Result.DefaultSelection<Prisma.$SavedAccountPayload>
  * 
  */
 export type Giftcode = $Result.DefaultSelection<Prisma.$GiftcodePayload>
+/**
+ * Model SystemNotice
+ * 
+ */
+export type SystemNotice = $Result.DefaultSelection<Prisma.$SystemNoticePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -209,6 +214,16 @@ export class PrismaClient<
     * ```
     */
   get giftcode(): Prisma.GiftcodeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.systemNotice`: Exposes CRUD operations for the **SystemNotice** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SystemNotices
+    * const systemNotices = await prisma.systemNotice.findMany()
+    * ```
+    */
+  get systemNotice(): Prisma.SystemNoticeDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -647,7 +662,8 @@ export namespace Prisma {
     SavedAccountCount: 'SavedAccountCount',
     RedeemStatistic: 'RedeemStatistic',
     SavedAccount: 'SavedAccount',
-    Giftcode: 'Giftcode'
+    Giftcode: 'Giftcode',
+    SystemNotice: 'SystemNotice'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -663,7 +679,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activeSession" | "savedAccountCount" | "redeemStatistic" | "savedAccount" | "giftcode"
+      modelProps: "activeSession" | "savedAccountCount" | "redeemStatistic" | "savedAccount" | "giftcode" | "systemNotice"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1037,6 +1053,80 @@ export namespace Prisma {
           }
         }
       }
+      SystemNotice: {
+        payload: Prisma.$SystemNoticePayload<ExtArgs>
+        fields: Prisma.SystemNoticeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SystemNoticeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SystemNoticePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SystemNoticeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SystemNoticePayload>
+          }
+          findFirst: {
+            args: Prisma.SystemNoticeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SystemNoticePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SystemNoticeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SystemNoticePayload>
+          }
+          findMany: {
+            args: Prisma.SystemNoticeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SystemNoticePayload>[]
+          }
+          create: {
+            args: Prisma.SystemNoticeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SystemNoticePayload>
+          }
+          createMany: {
+            args: Prisma.SystemNoticeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SystemNoticeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SystemNoticePayload>[]
+          }
+          delete: {
+            args: Prisma.SystemNoticeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SystemNoticePayload>
+          }
+          update: {
+            args: Prisma.SystemNoticeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SystemNoticePayload>
+          }
+          deleteMany: {
+            args: Prisma.SystemNoticeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SystemNoticeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SystemNoticeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SystemNoticePayload>[]
+          }
+          upsert: {
+            args: Prisma.SystemNoticeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SystemNoticePayload>
+          }
+          aggregate: {
+            args: Prisma.SystemNoticeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSystemNotice>
+          }
+          groupBy: {
+            args: Prisma.SystemNoticeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SystemNoticeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SystemNoticeCountArgs<ExtArgs>
+            result: $Utils.Optional<SystemNoticeCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1150,6 +1240,7 @@ export namespace Prisma {
     redeemStatistic?: RedeemStatisticOmit
     savedAccount?: SavedAccountOmit
     giftcode?: GiftcodeOmit
+    systemNotice?: SystemNoticeOmit
   }
 
   /* Types for Logging */
@@ -6208,6 +6299,993 @@ export namespace Prisma {
 
 
   /**
+   * Model SystemNotice
+   */
+
+  export type AggregateSystemNotice = {
+    _count: SystemNoticeCountAggregateOutputType | null
+    _min: SystemNoticeMinAggregateOutputType | null
+    _max: SystemNoticeMaxAggregateOutputType | null
+  }
+
+  export type SystemNoticeMinAggregateOutputType = {
+    id: string | null
+    content: string | null
+    isActive: boolean | null
+    updatedAt: Date | null
+  }
+
+  export type SystemNoticeMaxAggregateOutputType = {
+    id: string | null
+    content: string | null
+    isActive: boolean | null
+    updatedAt: Date | null
+  }
+
+  export type SystemNoticeCountAggregateOutputType = {
+    id: number
+    content: number
+    isActive: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SystemNoticeMinAggregateInputType = {
+    id?: true
+    content?: true
+    isActive?: true
+    updatedAt?: true
+  }
+
+  export type SystemNoticeMaxAggregateInputType = {
+    id?: true
+    content?: true
+    isActive?: true
+    updatedAt?: true
+  }
+
+  export type SystemNoticeCountAggregateInputType = {
+    id?: true
+    content?: true
+    isActive?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SystemNoticeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SystemNotice to aggregate.
+     */
+    where?: SystemNoticeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SystemNotices to fetch.
+     */
+    orderBy?: SystemNoticeOrderByWithRelationInput | SystemNoticeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SystemNoticeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SystemNotices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SystemNotices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SystemNotices
+    **/
+    _count?: true | SystemNoticeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SystemNoticeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SystemNoticeMaxAggregateInputType
+  }
+
+  export type GetSystemNoticeAggregateType<T extends SystemNoticeAggregateArgs> = {
+        [P in keyof T & keyof AggregateSystemNotice]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSystemNotice[P]>
+      : GetScalarType<T[P], AggregateSystemNotice[P]>
+  }
+
+
+
+
+  export type SystemNoticeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SystemNoticeWhereInput
+    orderBy?: SystemNoticeOrderByWithAggregationInput | SystemNoticeOrderByWithAggregationInput[]
+    by: SystemNoticeScalarFieldEnum[] | SystemNoticeScalarFieldEnum
+    having?: SystemNoticeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SystemNoticeCountAggregateInputType | true
+    _min?: SystemNoticeMinAggregateInputType
+    _max?: SystemNoticeMaxAggregateInputType
+  }
+
+  export type SystemNoticeGroupByOutputType = {
+    id: string
+    content: string
+    isActive: boolean
+    updatedAt: Date
+    _count: SystemNoticeCountAggregateOutputType | null
+    _min: SystemNoticeMinAggregateOutputType | null
+    _max: SystemNoticeMaxAggregateOutputType | null
+  }
+
+  type GetSystemNoticeGroupByPayload<T extends SystemNoticeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SystemNoticeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SystemNoticeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SystemNoticeGroupByOutputType[P]>
+            : GetScalarType<T[P], SystemNoticeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SystemNoticeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    isActive?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["systemNotice"]>
+
+  export type SystemNoticeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    isActive?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["systemNotice"]>
+
+  export type SystemNoticeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    isActive?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["systemNotice"]>
+
+  export type SystemNoticeSelectScalar = {
+    id?: boolean
+    content?: boolean
+    isActive?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SystemNoticeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "isActive" | "updatedAt", ExtArgs["result"]["systemNotice"]>
+
+  export type $SystemNoticePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SystemNotice"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      content: string
+      isActive: boolean
+      updatedAt: Date
+    }, ExtArgs["result"]["systemNotice"]>
+    composites: {}
+  }
+
+  type SystemNoticeGetPayload<S extends boolean | null | undefined | SystemNoticeDefaultArgs> = $Result.GetResult<Prisma.$SystemNoticePayload, S>
+
+  type SystemNoticeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SystemNoticeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SystemNoticeCountAggregateInputType | true
+    }
+
+  export interface SystemNoticeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SystemNotice'], meta: { name: 'SystemNotice' } }
+    /**
+     * Find zero or one SystemNotice that matches the filter.
+     * @param {SystemNoticeFindUniqueArgs} args - Arguments to find a SystemNotice
+     * @example
+     * // Get one SystemNotice
+     * const systemNotice = await prisma.systemNotice.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SystemNoticeFindUniqueArgs>(args: SelectSubset<T, SystemNoticeFindUniqueArgs<ExtArgs>>): Prisma__SystemNoticeClient<$Result.GetResult<Prisma.$SystemNoticePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SystemNotice that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SystemNoticeFindUniqueOrThrowArgs} args - Arguments to find a SystemNotice
+     * @example
+     * // Get one SystemNotice
+     * const systemNotice = await prisma.systemNotice.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SystemNoticeFindUniqueOrThrowArgs>(args: SelectSubset<T, SystemNoticeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SystemNoticeClient<$Result.GetResult<Prisma.$SystemNoticePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SystemNotice that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SystemNoticeFindFirstArgs} args - Arguments to find a SystemNotice
+     * @example
+     * // Get one SystemNotice
+     * const systemNotice = await prisma.systemNotice.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SystemNoticeFindFirstArgs>(args?: SelectSubset<T, SystemNoticeFindFirstArgs<ExtArgs>>): Prisma__SystemNoticeClient<$Result.GetResult<Prisma.$SystemNoticePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SystemNotice that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SystemNoticeFindFirstOrThrowArgs} args - Arguments to find a SystemNotice
+     * @example
+     * // Get one SystemNotice
+     * const systemNotice = await prisma.systemNotice.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SystemNoticeFindFirstOrThrowArgs>(args?: SelectSubset<T, SystemNoticeFindFirstOrThrowArgs<ExtArgs>>): Prisma__SystemNoticeClient<$Result.GetResult<Prisma.$SystemNoticePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SystemNotices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SystemNoticeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SystemNotices
+     * const systemNotices = await prisma.systemNotice.findMany()
+     * 
+     * // Get first 10 SystemNotices
+     * const systemNotices = await prisma.systemNotice.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const systemNoticeWithIdOnly = await prisma.systemNotice.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SystemNoticeFindManyArgs>(args?: SelectSubset<T, SystemNoticeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SystemNoticePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SystemNotice.
+     * @param {SystemNoticeCreateArgs} args - Arguments to create a SystemNotice.
+     * @example
+     * // Create one SystemNotice
+     * const SystemNotice = await prisma.systemNotice.create({
+     *   data: {
+     *     // ... data to create a SystemNotice
+     *   }
+     * })
+     * 
+     */
+    create<T extends SystemNoticeCreateArgs>(args: SelectSubset<T, SystemNoticeCreateArgs<ExtArgs>>): Prisma__SystemNoticeClient<$Result.GetResult<Prisma.$SystemNoticePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SystemNotices.
+     * @param {SystemNoticeCreateManyArgs} args - Arguments to create many SystemNotices.
+     * @example
+     * // Create many SystemNotices
+     * const systemNotice = await prisma.systemNotice.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SystemNoticeCreateManyArgs>(args?: SelectSubset<T, SystemNoticeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SystemNotices and returns the data saved in the database.
+     * @param {SystemNoticeCreateManyAndReturnArgs} args - Arguments to create many SystemNotices.
+     * @example
+     * // Create many SystemNotices
+     * const systemNotice = await prisma.systemNotice.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SystemNotices and only return the `id`
+     * const systemNoticeWithIdOnly = await prisma.systemNotice.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SystemNoticeCreateManyAndReturnArgs>(args?: SelectSubset<T, SystemNoticeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SystemNoticePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SystemNotice.
+     * @param {SystemNoticeDeleteArgs} args - Arguments to delete one SystemNotice.
+     * @example
+     * // Delete one SystemNotice
+     * const SystemNotice = await prisma.systemNotice.delete({
+     *   where: {
+     *     // ... filter to delete one SystemNotice
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SystemNoticeDeleteArgs>(args: SelectSubset<T, SystemNoticeDeleteArgs<ExtArgs>>): Prisma__SystemNoticeClient<$Result.GetResult<Prisma.$SystemNoticePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SystemNotice.
+     * @param {SystemNoticeUpdateArgs} args - Arguments to update one SystemNotice.
+     * @example
+     * // Update one SystemNotice
+     * const systemNotice = await prisma.systemNotice.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SystemNoticeUpdateArgs>(args: SelectSubset<T, SystemNoticeUpdateArgs<ExtArgs>>): Prisma__SystemNoticeClient<$Result.GetResult<Prisma.$SystemNoticePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SystemNotices.
+     * @param {SystemNoticeDeleteManyArgs} args - Arguments to filter SystemNotices to delete.
+     * @example
+     * // Delete a few SystemNotices
+     * const { count } = await prisma.systemNotice.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SystemNoticeDeleteManyArgs>(args?: SelectSubset<T, SystemNoticeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SystemNotices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SystemNoticeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SystemNotices
+     * const systemNotice = await prisma.systemNotice.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SystemNoticeUpdateManyArgs>(args: SelectSubset<T, SystemNoticeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SystemNotices and returns the data updated in the database.
+     * @param {SystemNoticeUpdateManyAndReturnArgs} args - Arguments to update many SystemNotices.
+     * @example
+     * // Update many SystemNotices
+     * const systemNotice = await prisma.systemNotice.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SystemNotices and only return the `id`
+     * const systemNoticeWithIdOnly = await prisma.systemNotice.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SystemNoticeUpdateManyAndReturnArgs>(args: SelectSubset<T, SystemNoticeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SystemNoticePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SystemNotice.
+     * @param {SystemNoticeUpsertArgs} args - Arguments to update or create a SystemNotice.
+     * @example
+     * // Update or create a SystemNotice
+     * const systemNotice = await prisma.systemNotice.upsert({
+     *   create: {
+     *     // ... data to create a SystemNotice
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SystemNotice we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SystemNoticeUpsertArgs>(args: SelectSubset<T, SystemNoticeUpsertArgs<ExtArgs>>): Prisma__SystemNoticeClient<$Result.GetResult<Prisma.$SystemNoticePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SystemNotices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SystemNoticeCountArgs} args - Arguments to filter SystemNotices to count.
+     * @example
+     * // Count the number of SystemNotices
+     * const count = await prisma.systemNotice.count({
+     *   where: {
+     *     // ... the filter for the SystemNotices we want to count
+     *   }
+     * })
+    **/
+    count<T extends SystemNoticeCountArgs>(
+      args?: Subset<T, SystemNoticeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SystemNoticeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SystemNotice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SystemNoticeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SystemNoticeAggregateArgs>(args: Subset<T, SystemNoticeAggregateArgs>): Prisma.PrismaPromise<GetSystemNoticeAggregateType<T>>
+
+    /**
+     * Group by SystemNotice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SystemNoticeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SystemNoticeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SystemNoticeGroupByArgs['orderBy'] }
+        : { orderBy?: SystemNoticeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SystemNoticeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSystemNoticeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SystemNotice model
+   */
+  readonly fields: SystemNoticeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SystemNotice.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SystemNoticeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SystemNotice model
+   */
+  interface SystemNoticeFieldRefs {
+    readonly id: FieldRef<"SystemNotice", 'String'>
+    readonly content: FieldRef<"SystemNotice", 'String'>
+    readonly isActive: FieldRef<"SystemNotice", 'Boolean'>
+    readonly updatedAt: FieldRef<"SystemNotice", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SystemNotice findUnique
+   */
+  export type SystemNoticeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SystemNotice
+     */
+    select?: SystemNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SystemNotice
+     */
+    omit?: SystemNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which SystemNotice to fetch.
+     */
+    where: SystemNoticeWhereUniqueInput
+  }
+
+  /**
+   * SystemNotice findUniqueOrThrow
+   */
+  export type SystemNoticeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SystemNotice
+     */
+    select?: SystemNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SystemNotice
+     */
+    omit?: SystemNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which SystemNotice to fetch.
+     */
+    where: SystemNoticeWhereUniqueInput
+  }
+
+  /**
+   * SystemNotice findFirst
+   */
+  export type SystemNoticeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SystemNotice
+     */
+    select?: SystemNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SystemNotice
+     */
+    omit?: SystemNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which SystemNotice to fetch.
+     */
+    where?: SystemNoticeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SystemNotices to fetch.
+     */
+    orderBy?: SystemNoticeOrderByWithRelationInput | SystemNoticeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SystemNotices.
+     */
+    cursor?: SystemNoticeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SystemNotices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SystemNotices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SystemNotices.
+     */
+    distinct?: SystemNoticeScalarFieldEnum | SystemNoticeScalarFieldEnum[]
+  }
+
+  /**
+   * SystemNotice findFirstOrThrow
+   */
+  export type SystemNoticeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SystemNotice
+     */
+    select?: SystemNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SystemNotice
+     */
+    omit?: SystemNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which SystemNotice to fetch.
+     */
+    where?: SystemNoticeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SystemNotices to fetch.
+     */
+    orderBy?: SystemNoticeOrderByWithRelationInput | SystemNoticeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SystemNotices.
+     */
+    cursor?: SystemNoticeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SystemNotices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SystemNotices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SystemNotices.
+     */
+    distinct?: SystemNoticeScalarFieldEnum | SystemNoticeScalarFieldEnum[]
+  }
+
+  /**
+   * SystemNotice findMany
+   */
+  export type SystemNoticeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SystemNotice
+     */
+    select?: SystemNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SystemNotice
+     */
+    omit?: SystemNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which SystemNotices to fetch.
+     */
+    where?: SystemNoticeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SystemNotices to fetch.
+     */
+    orderBy?: SystemNoticeOrderByWithRelationInput | SystemNoticeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SystemNotices.
+     */
+    cursor?: SystemNoticeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SystemNotices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SystemNotices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SystemNotices.
+     */
+    distinct?: SystemNoticeScalarFieldEnum | SystemNoticeScalarFieldEnum[]
+  }
+
+  /**
+   * SystemNotice create
+   */
+  export type SystemNoticeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SystemNotice
+     */
+    select?: SystemNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SystemNotice
+     */
+    omit?: SystemNoticeOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SystemNotice.
+     */
+    data: XOR<SystemNoticeCreateInput, SystemNoticeUncheckedCreateInput>
+  }
+
+  /**
+   * SystemNotice createMany
+   */
+  export type SystemNoticeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SystemNotices.
+     */
+    data: SystemNoticeCreateManyInput | SystemNoticeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SystemNotice createManyAndReturn
+   */
+  export type SystemNoticeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SystemNotice
+     */
+    select?: SystemNoticeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SystemNotice
+     */
+    omit?: SystemNoticeOmit<ExtArgs> | null
+    /**
+     * The data used to create many SystemNotices.
+     */
+    data: SystemNoticeCreateManyInput | SystemNoticeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SystemNotice update
+   */
+  export type SystemNoticeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SystemNotice
+     */
+    select?: SystemNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SystemNotice
+     */
+    omit?: SystemNoticeOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SystemNotice.
+     */
+    data: XOR<SystemNoticeUpdateInput, SystemNoticeUncheckedUpdateInput>
+    /**
+     * Choose, which SystemNotice to update.
+     */
+    where: SystemNoticeWhereUniqueInput
+  }
+
+  /**
+   * SystemNotice updateMany
+   */
+  export type SystemNoticeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SystemNotices.
+     */
+    data: XOR<SystemNoticeUpdateManyMutationInput, SystemNoticeUncheckedUpdateManyInput>
+    /**
+     * Filter which SystemNotices to update
+     */
+    where?: SystemNoticeWhereInput
+    /**
+     * Limit how many SystemNotices to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SystemNotice updateManyAndReturn
+   */
+  export type SystemNoticeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SystemNotice
+     */
+    select?: SystemNoticeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SystemNotice
+     */
+    omit?: SystemNoticeOmit<ExtArgs> | null
+    /**
+     * The data used to update SystemNotices.
+     */
+    data: XOR<SystemNoticeUpdateManyMutationInput, SystemNoticeUncheckedUpdateManyInput>
+    /**
+     * Filter which SystemNotices to update
+     */
+    where?: SystemNoticeWhereInput
+    /**
+     * Limit how many SystemNotices to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SystemNotice upsert
+   */
+  export type SystemNoticeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SystemNotice
+     */
+    select?: SystemNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SystemNotice
+     */
+    omit?: SystemNoticeOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SystemNotice to update in case it exists.
+     */
+    where: SystemNoticeWhereUniqueInput
+    /**
+     * In case the SystemNotice found by the `where` argument doesn't exist, create a new SystemNotice with this data.
+     */
+    create: XOR<SystemNoticeCreateInput, SystemNoticeUncheckedCreateInput>
+    /**
+     * In case the SystemNotice was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SystemNoticeUpdateInput, SystemNoticeUncheckedUpdateInput>
+  }
+
+  /**
+   * SystemNotice delete
+   */
+  export type SystemNoticeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SystemNotice
+     */
+    select?: SystemNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SystemNotice
+     */
+    omit?: SystemNoticeOmit<ExtArgs> | null
+    /**
+     * Filter which SystemNotice to delete.
+     */
+    where: SystemNoticeWhereUniqueInput
+  }
+
+  /**
+   * SystemNotice deleteMany
+   */
+  export type SystemNoticeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SystemNotices to delete
+     */
+    where?: SystemNoticeWhereInput
+    /**
+     * Limit how many SystemNotices to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SystemNotice without action
+   */
+  export type SystemNoticeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SystemNotice
+     */
+    select?: SystemNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SystemNotice
+     */
+    omit?: SystemNoticeOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -6267,6 +7345,16 @@ export namespace Prisma {
   };
 
   export type GiftcodeScalarFieldEnum = (typeof GiftcodeScalarFieldEnum)[keyof typeof GiftcodeScalarFieldEnum]
+
+
+  export const SystemNoticeScalarFieldEnum: {
+    id: 'id',
+    content: 'content',
+    isActive: 'isActive',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SystemNoticeScalarFieldEnum = (typeof SystemNoticeScalarFieldEnum)[keyof typeof SystemNoticeScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -6329,6 +7417,13 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -6578,6 +7673,53 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Giftcode"> | Date | string
   }
 
+  export type SystemNoticeWhereInput = {
+    AND?: SystemNoticeWhereInput | SystemNoticeWhereInput[]
+    OR?: SystemNoticeWhereInput[]
+    NOT?: SystemNoticeWhereInput | SystemNoticeWhereInput[]
+    id?: StringFilter<"SystemNotice"> | string
+    content?: StringFilter<"SystemNotice"> | string
+    isActive?: BoolFilter<"SystemNotice"> | boolean
+    updatedAt?: DateTimeFilter<"SystemNotice"> | Date | string
+  }
+
+  export type SystemNoticeOrderByWithRelationInput = {
+    id?: SortOrder
+    content?: SortOrder
+    isActive?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SystemNoticeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SystemNoticeWhereInput | SystemNoticeWhereInput[]
+    OR?: SystemNoticeWhereInput[]
+    NOT?: SystemNoticeWhereInput | SystemNoticeWhereInput[]
+    content?: StringFilter<"SystemNotice"> | string
+    isActive?: BoolFilter<"SystemNotice"> | boolean
+    updatedAt?: DateTimeFilter<"SystemNotice"> | Date | string
+  }, "id">
+
+  export type SystemNoticeOrderByWithAggregationInput = {
+    id?: SortOrder
+    content?: SortOrder
+    isActive?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SystemNoticeCountOrderByAggregateInput
+    _max?: SystemNoticeMaxOrderByAggregateInput
+    _min?: SystemNoticeMinOrderByAggregateInput
+  }
+
+  export type SystemNoticeScalarWhereWithAggregatesInput = {
+    AND?: SystemNoticeScalarWhereWithAggregatesInput | SystemNoticeScalarWhereWithAggregatesInput[]
+    OR?: SystemNoticeScalarWhereWithAggregatesInput[]
+    NOT?: SystemNoticeScalarWhereWithAggregatesInput | SystemNoticeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SystemNotice"> | string
+    content?: StringWithAggregatesFilter<"SystemNotice"> | string
+    isActive?: BoolWithAggregatesFilter<"SystemNotice"> | boolean
+    updatedAt?: DateTimeWithAggregatesFilter<"SystemNotice"> | Date | string
+  }
+
   export type ActiveSessionCreateInput = {
     id?: string
     ip: string
@@ -6809,6 +7951,55 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SystemNoticeCreateInput = {
+    id?: string
+    content?: string
+    isActive?: boolean
+    updatedAt?: Date | string
+  }
+
+  export type SystemNoticeUncheckedCreateInput = {
+    id?: string
+    content?: string
+    isActive?: boolean
+    updatedAt?: Date | string
+  }
+
+  export type SystemNoticeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SystemNoticeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SystemNoticeCreateManyInput = {
+    id?: string
+    content?: string
+    isActive?: boolean
+    updatedAt?: Date | string
+  }
+
+  export type SystemNoticeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SystemNoticeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -7009,6 +8200,40 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type SystemNoticeCountOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    isActive?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SystemNoticeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    isActive?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SystemNoticeMinOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    isActive?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -7023,6 +8248,10 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -7117,6 +8346,19 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
 
