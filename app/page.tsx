@@ -9,6 +9,20 @@ import { LogResult, SavedAccount, SystemStats } from "./types/redeem";
 import SystemStatsBar from "./components/SystemStatsBar";
 import AccountModal from "./components/AccountModal";
 
+// Khai báo kiểu dữ liệu cho Swiper Elements để TypeScript không báo lỗi build
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'swiper-container': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & {
+        ref?: React.RefObject<any>;
+        init?: string;
+        class?: string;
+      }, HTMLElement>;
+      'swiper-slide': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+    }
+  }
+}
+
 register();
 
 export default function Home() {
@@ -430,7 +444,7 @@ export default function Home() {
       </nav>
       <main className="mx-auto max-w-2xl px-6 py-12">
         <div className="mb-6 overflow-hidden rounded-2xl border border-zinc-200/60 bg-zinc-100 shadow-sm dark:border-zinc-800/60 dark:bg-zinc-900">
-          <swiper-container ref={swiperRef} init="false" class="w-full aspect-[686/294]">
+          <swiper-container ref={swiperRef} init="false" className="w-full aspect-[686/294]">
             <swiper-slide>
               <img
                 src="https://cdn.omnirise.com/cms/CFL_top_banner_686x294_c980473d19.png?w=750&q=75"
