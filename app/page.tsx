@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Sun, Moon, Loader2, CheckCircle2, XCircle, Users, Award, ChevronDown, ChevronUp, Plus, Heart, Copy, Check } from "lucide-react";
+import { Sun, Moon, Loader2, CheckCircle2, XCircle, Users, Award, ChevronDown, ChevronUp, Plus, Heart, Copy, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { register } from "swiper/element/bundle";
 import { translations } from "@/utils/translations";
 import { LogResult, SavedAccount, SystemStats } from "./types/redeem";
@@ -41,6 +41,9 @@ export default function Home() {
   const [isDonateOpen, setIsDonateOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [stats, setStats] = useState<SystemStats | null>(null);
+  
+  const [banner1Loaded, setBanner1Loaded] = useState(false);
+  const [banner2Loaded, setBanner2Loaded] = useState(false);
 
   const swiperRef = useRef<any>(null);
 
@@ -413,6 +416,18 @@ export default function Home() {
   const shouldShowLogsToggle = currentTotal > 6;
   const visibleResults = isLogsExpanded ? results : results.slice(0, 6);
 
+  const handlePrevBanner = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slidePrev();
+    }
+  };
+
+  const handleNextBanner = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideNext();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-zinc-50 font-sans text-zinc-900 transition-colors duration-200 dark:bg-black dark:text-zinc-100">
       <nav className="mx-auto flex max-w-2xl items-center justify-between px-6 py-6 border-b border-zinc-100 dark:border-zinc-900/60">
@@ -442,25 +457,54 @@ export default function Home() {
         </div>
       </nav>
       <main className="mx-auto max-w-2xl px-6 py-12">
-        <div className="mb-6 overflow-hidden rounded-2xl border border-zinc-200/60 bg-zinc-100 shadow-sm dark:border-zinc-800/60 dark:bg-zinc-900">
-          <swiper-container ref={swiperRef} init="false" className="w-full aspect-[686/294]">
-            <swiper-slide>
+        <div className="group relative mb-6 overflow-hidden rounded-2xl border border-zinc-200/60 bg-zinc-100 shadow-sm dark:border-zinc-800/60 dark:bg-zinc-900 aspect-[686/294]">
+          <swiper-container ref={swiperRef} init="false" className="w-full h-full">
+            <swiper-slide className="relative w-full h-full">
+              {!banner1Loaded && (
+                <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 animate-pulse flex items-center justify-center">
+                  <Loader2 className="w-6 h-6 animate-spin text-zinc-400 dark:text-zinc-500" />
+                </div>
+              )}
               <img
                 src="https://cdn.omnirise.com/cms/CFL_top_banner_686x294_c980473d19.png?w=750&q=75"
                 alt="CFL Top Banner"
-                className="h-full w-full object-cover select-none"
+                className={`h-full w-full object-cover select-none transition-opacity duration-300 ${banner1Loaded ? "opacity-100" : "opacity-0"}`}
                 loading="eager"
+                onLoad={() => setBanner1Loaded(true)}
               />
             </swiper-slide>
-            <swiper-slide>
+            <swiper-slide className="relative w-full h-full">
+              {!banner2Loaded && (
+                <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 animate-pulse flex items-center justify-center">
+                  <Loader2 className="w-6 h-6 animate-spin text-zinc-400 dark:text-zinc-500" />
+                </div>
+              )}
               <img
                 src="https://cdn.omnirise.com/cms/CFL_bottom_banner_686x294_178521dbca.png?w=750&q=75"
                 alt="CFL Bottom Banner"
-                className="h-full w-full object-cover select-none"
+                className={`h-full w-full object-cover select-none transition-opacity duration-300 ${banner2Loaded ? "opacity-100" : "opacity-0"}`}
                 loading="lazy"
+                onLoad={() => setBanner2Loaded(true)}
               />
             </swiper-slide>
           </swiper-container>
+
+          <button
+            type="button"
+            onClick={handlePrevBanner}
+            className="absolute left-3 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-xl border border-zinc-200/80 bg-white/90 text-zinc-700 backdrop-blur-sm shadow-sm outline-none transition-all opacity-0 group-hover:opacity-100 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/90 dark:text-zinc-300 dark:hover:bg-zinc-800"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft size={16} />
+          </button>
+          <button
+            type="button"
+            onClick={handleNextBanner}
+            className="absolute right-3 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-xl border border-zinc-200/80 bg-white/90 text-zinc-700 backdrop-blur-sm shadow-sm outline-none transition-all opacity-0 group-hover:opacity-100 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/90 dark:text-zinc-300 dark:hover:bg-zinc-800"
+            aria-label="Next slide"
+          >
+            <ChevronRight size={16} />
+          </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
