@@ -40,7 +40,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const body = await request.json().catch(() => ({}));
+    const body = await req.json().catch(() => ({}));
     const { action, accountCount, roleId, serverID, roleName, level } = body;
     const ip = getClientIp(req);
 
@@ -122,4 +122,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Lỗi xử lý dữ liệu thống kê" }, { status: 500 });
   }
 }
-
