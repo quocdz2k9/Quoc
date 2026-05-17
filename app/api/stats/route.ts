@@ -117,6 +117,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ codes: codesData.map(c => c.code) });
     }
 
+    if (action === "get-notice") {
+      const notice = await prisma.systemNotice.findUnique({
+        where: { id: "system-config" }
+      });
+      return NextResponse.json({
+        content: notice?.content || "",
+        isActive: notice?.isActive || false
+      });
+    }
+
     return NextResponse.json({ error: "Hành động không hợp lệ" }, { status: 400 });
   } catch (error) {
     return NextResponse.json({ error: "Lỗi xử lý dữ liệu thống kê" }, { status: 500 });

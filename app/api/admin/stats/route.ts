@@ -9,7 +9,7 @@ const PRESET_CODES = [
   "SIEUNHANZOZO", "ZOZOCFL20", "XATHUZOZO", "ZOZOREACH500", "ZOZOVODICH", "TOANDANF11",
   "2026CFLKHAIHOA", "HUYENTHOAICF", "LIKE1KOBCFL", "HANOI1KXCAUVS", "HANOI2KX5AUVS", "HANOI3KXCPMMN",
   "DANANG1KMX92WK", "HCM1KASPO29S", "HCM3KASMCSS", "HCM4KAS99DNS", "APRIL1500FOOL", "APRILFOOL1000",
-  "HAPPYAPRILFOOL", "BAOLAOFOOL", "BAOLAOSPY", "BAOLAOMASOI", "BAOLAOC4BL", "BAOLAOGRC4",
+  "HAPPYAPRILFOOL", "BAOLAOFOOL", "BAOLAOSPY", "BAOLAMASOI", "BAOLAOC4BL", "BAOLAOGRC4",
   "BAOLAOVUIVE", "CFLGAMEVERSE", "CFLFORYOURDAY", "CFLVOTINGTIME", "MEEEELOOO", "VUYPWAMELO",
   "HELLOMELO", "MELOTOP1CFL", "500MELO500", "HCM2KASP929S", "CFLPLAYNOW", "CFLMAIDINH02",
   "THANTOCCFL01"
@@ -44,10 +44,15 @@ export async function GET() {
       });
     }
 
+    const notice = await prisma.systemNotice.findUnique({
+      where: { id: "system-config" }
+    });
+
     return NextResponse.json({
       todayVisitors,
       totalVisitors,
-      giftcodes
+      giftcodes,
+      notice: notice ? { content: notice.content, isActive: notice.isActive } : { content: "", isActive: false }
     });
   } catch (error) {
     return NextResponse.json({ error: "Lỗi hệ thống khi lấy dữ liệu admin" }, { status: 500 });
@@ -57,7 +62,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { action, code, id } = body;
+    const { action, code, id, content, isActive } = body;
 
     if (action === "add-code") {
       if (!code || !code.trim()) {
@@ -86,9 +91,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: true });
     }
 
+    if (action === "update-notice") {
+      await prisma.systemNotice.upsert({
+        where: { id: "system-config" },
+        update: { content, isActive },
+        create: { id: "system-config", content, isActive }
+      });
+      return NextResponse.json({ success: true });
+    }
+
     return NextResponse.json({ error: "Hành động không hợp lệ" }, { status: 400 });
   } catch (error) {
     return NextResponse.json({ error: "Lỗi xử lý dữ liệu code" }, { status: 500 });
   }
 }
-
