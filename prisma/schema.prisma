@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model ActiveSession {
+  id        String   @id @default(uuid())
+  ip        String   @unique
+  updatedAt DateTime @updatedAt
+}
+
+model SavedAccountCount {
+  id        String   @id @default(uuid())
+  ip        String   @unique
+  count     Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model RedeemStatistic {
+  id    String @id
+  count Int    @default(0)
+}
+
+model SavedAccount {
+  id        String   @id @default(uuid())
+  roleId    String   @unique
+  serverID  String   @default("101")
+  roleName  String   @default("Unknown")
+  level     String   @default("0")
+  createdAt DateTime @default(now())
+}
+
+model Giftcode {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  createdAt DateTime @default(now())
+}
