@@ -8,6 +8,7 @@ import { translations } from "@/utils/translations";
 import { LogResult, SavedAccount, SystemStats } from "./types/redeem";
 import SystemStatsBar from "./components/SystemStatsBar";
 import AccountModal from "./components/AccountModal";
+import NoticeModal from "./components/NoticeModal";
 
 declare global {
   namespace React.JSX {
@@ -783,6 +784,8 @@ export default function Home() {
         onDeleteAccount={handleDeleteAccount}
         onPasteId={handlePasteId}
       />
+      
+      <NoticeModal />
     </div>
   );
 }

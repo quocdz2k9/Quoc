@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Users, BarChart3, Loader2, Plus, Trash2 } from "lucide-react";
+import { Users, BarChart3, Loader2, Plus, Trash2, Megaphone, Save } from "lucide-react";
 
 interface Giftcode {
   id: string;
@@ -17,6 +17,10 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
 
+  const [noticeContent, setNoticeContent] = useState("");
+  const [isNoticeActive, setIsNoticeActive] = useState(false);
+  const [noticeSaveLoading, setNoticeSaveLoading] = useState(false);
+
   const fetchAdminStats = async () => {
     try {
       const res = await axios.get("/api/admin/stats");
@@ -26,6 +30,8 @@ export default function AdminDashboard() {
           totalVisitors: res.data.totalVisitors || 0
         });
         setGiftcodes(res.data.giftcodes || []);
+        setNoticeContent(res.data.notice?.content || "");
+        setIsNoticeActive(res.data.notice?.isActive || false);
       }
     } catch (e) {
     } finally {
@@ -55,7 +61,7 @@ export default function AdminDashboard() {
       }
     } catch (err: any) {
       alert(err.response?.data?.error || "Lỗi khi thêm mã code");
-    } finally {
+    } finaly {
       setActionLoading(false);
     }
   };
@@ -74,8 +80,28 @@ export default function AdminDashboard() {
       }
     } catch (err: any) {
       alert(err.response?.data?.error || "Lỗi khi xóa mã code");
-    } finally {
+    } finaly {
       setActionLoading(false);
+    }
+  };
+
+  const handleSaveNotice = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setNoticeSaveLoading(true);
+    try {
+      const res = await axios.post("/api/admin/stats", {
+        action: "update-notice",
+        content: noticeContent,
+        isActive: isNoticeActive
+      });
+      if (res.data?.success) {
+        alert("Cập nhật thông báo hệ thống thành công!");
+        await fetchAdminStats();
+      }
+    } catch (err: any) {
+      alert(err.response?.data?.error || "Lỗi khi cập nhật thông báo");
+    } finaly {
+      setNoticeSaveLoading(false);
     }
   };
 
@@ -122,6 +148,50 @@ export default function AdminDashboard() {
                   {adminStats.totalVisitors.toLocaleString()}
                 </div>
               </div>
+            </div>
+
+            <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 space-y-4">
+              <div className="flex items-center gap-2 border-b border-zinc-100 dark:border-zinc-800/60 pb-3">
+                <Megaphone size={18} className="text-zinc-500" />
+                <h2 className="text-sm font-bold uppercase tracking-wider">Cấu Hình Thông Báo Toàn Sàn</h2>
+              </div>
+              <form onSubmit={handleSaveNotice} className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <label htmlFor="notice-toggle" className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">
+                    Trạng thái hiển thị modal người dùng:
+                  </label>
+                  <button
+                    type="button"
+                    id="notice-toggle"
+                    onClick={() => setIsNoticeActive(!isNoticeActive)}
+                    className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out outline-none ${isNoticeActive ? 'bg-zinc-900 dark:bg-zinc-100' : 'bg-zinc-200 dark:bg-zinc-800'}`}
+                  >
+                    <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-zinc-950 shadow ring-0 transition duration-200 ease-in-out ${isNoticeActive ? 'translate-x-5' : 'translate-x-0'}`} />
+                  </button>
+                </div>
+                <div className="space-y-1.5">
+                  <label htmlFor="notice-text" className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">
+                    Nội dung thông báo:
+                  </label>
+                  <textarea
+                    id="notice-text"
+                    rows={3}
+                    value={noticeContent}
+                    onChange={(e) => setNoticeContent(e.target.value)}
+                    placeholder="Nhập văn bản thông báo xuất hiện ở màn hình chính..."
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none transition-all placeholder-zinc-400 dark:placeholder-zinc-500 focus:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:border-zinc-700 resize-none"
+                  />
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    type="submit"
+                    disabled={noticeSaveLoading}
+                    className="flex items-center gap-1.5 rounded-xl bg-zinc-900 px-4 py-2 text-xs font-bold text-white transition-opacity disabled:opacity-40 dark:bg-zinc-100 dark:text-black"
+                  >
+                    <Save size={14} /> Lưu Cấu Hình
+                  </button>
+                </div>
+              </form>
             </div>
 
             <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 space-y-6">
@@ -182,3 +252,4 @@ export default function AdminDashboard() {
     </div>
   );
 }
+
