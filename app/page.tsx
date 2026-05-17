@@ -154,7 +154,7 @@ export default function Home() {
       }
     } catch (error) {
       setModalError("Lỗi kết nối hệ thống khi check thông tin");
-    } finaly {
+    } finally {
       setModalLoading(false);
     }
   };
