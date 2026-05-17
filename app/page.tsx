@@ -24,11 +24,7 @@ export default function Home() {
   const [isLogsExpanded, setIsLogsExpanded] = useState(false);
   const [isDonateOpen, setIsDonateOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [stats, setStats] = useState<SystemStats>({
-    activeUsers: 0,
-    totalSavedAccounts: 0,
-    totalRedeemed: 0
-  });
+  const [stats, setStats] = useState<SystemStats | null>(null);
 
   const syncAccountsToDatabase = async (count: number) => {
     try {
@@ -158,7 +154,7 @@ export default function Home() {
       }
     } catch (error) {
       setModalError("Lỗi kết nối hệ thống khi check thông tin");
-    } finally {
+    } finaly {
       setModalLoading(false);
     }
   };
