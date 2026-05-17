@@ -18,7 +18,9 @@ async function getRotatingProxy(): Promise<string | null> {
       lastRotateTime = now;
       return currentRotatingProxyIp;
     }
-  } catch (e) {}
+  } catch (e) {
+    console.error("-> Lỗi khi gọi API lấy IP xoay MKVN:", e instanceof Error ? e.message : e);
+  }
   return currentRotatingProxyIp || null;
 }
 
@@ -53,6 +55,7 @@ export async function POST(request: Request) {
           }
         );
       } catch (err) {
+        console.warn("-> [Check-Info] IP Hệ thống lỗi, chuyển sang Proxy tĩnh IPv4...");
         try {
           const staticAgent = new HttpsProxyAgent("http://Proxy_ifxawsni:52YRbtdprH@163.223.15.120:40290");
           response = await axios.post(
@@ -71,9 +74,11 @@ export async function POST(request: Request) {
             }
           );
         } catch (err2) {
+          console.warn("-> [Check-Info] Proxy tĩnh lỗi, chuyển sang Proxy xoay MKVN...");
           const rotatingIp = await getRotatingProxy();
           if (!rotatingIp) throw err2;
-          const rotateAgent = new HttpsProxyAgent(`http://${rotatingIp}`);
+          const rotateUrl = rotatingIp.includes(":") ? `http://${rotatingIp}` : `http://${rotatingIp}:80`;
+          const rotateAgent = new HttpsProxyAgent(rotateUrl);
           response = await axios.post(
             "https://billing.vnggames.com/fe/api/auth/quick",
             params.toString(),
@@ -120,6 +125,7 @@ export async function POST(request: Request) {
         { headers: redeemHeaders, timeout: 10000 }
       );
     } catch (err) {
+      console.warn("-> [Redeem] IP Hệ thống lỗi, chuyển sang Proxy tĩnh IPv4...");
       try {
         const staticAgent = new HttpsProxyAgent("http://Proxy_ifxawsni:52YRbtdprH@163.223.15.120:40290");
         response = await axios.post(
@@ -128,9 +134,11 @@ export async function POST(request: Request) {
           { headers: redeemHeaders, httpsAgent: staticAgent, proxy: false, timeout: 10000 }
         );
       } catch (err2) {
+        console.warn("-> [Redeem] Proxy tĩnh lỗi, chuyển sang Proxy xoay MKVN...");
         const rotatingIp = await getRotatingProxy();
         if (!rotatingIp) throw err2;
-        const rotateAgent = new HttpsProxyAgent(`http://${rotatingIp}`);
+        const rotateUrl = rotatingIp.includes(":") ? `http://${rotatingIp}` : `http://${rotatingIp}:80`;
+        const rotateAgent = new HttpsProxyAgent(rotateUrl);
         response = await axios.post(
           "https://vgrapi-sea.vnggames.com/coordinator/api/v1/code/redeem",
           redeemPayload,
@@ -140,6 +148,12 @@ export async function POST(request: Request) {
     }
     return NextResponse.json(response.data);
   } catch (error: any) {
+    console.error("-> [Fatal Error] Tất cả các tầng kết nối đều thất bại:");
+    if (error.response) {
+      console.error(`   Status: ${error.response.status} | Data:`, error.response.data);
+    } else {
+      console.error(`   Message: ${error.message}`);
+    }
     const status = error.response?.status || 500;
     const data = error.response?.data || { message: "Lỗi kết nối API" };
     return NextResponse.json(data, { status });
