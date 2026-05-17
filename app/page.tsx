@@ -454,7 +454,7 @@ export default function Home() {
         </div>
       </nav>
       <main className="mx-auto max-w-2xl px-6 py-12">
-        <div className="group relative mb-6 overflow-hidden rounded-2xl border border-zinc-200/60 bg-zinc-100 shadow-sm dark:border-zinc-800/60 dark:bg-zinc-900 aspect-[686/294]">
+        <div className="group relative mb-3 overflow-hidden rounded-2xl border border-zinc-200/60 bg-zinc-100 shadow-sm dark:border-zinc-800/60 dark:bg-zinc-900 aspect-[686/294]">
           <swiper-container ref={swiperRef} init="false" className="w-full h-full">
             <swiper-slide className="relative w-full h-full">
               <img
@@ -490,6 +490,25 @@ export default function Home() {
           >
             <ChevronRight size={16} />
           </button>
+        </div>
+
+        <div className="mb-6 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <a
+            href="https://zalo.me/0877014100"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center rounded-xl border border-zinc-200 bg-white px-4 py-3 text-center text-xs font-bold shadow-sm transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+          >
+            🔥 THU MUA NICK CFL GIÁ CAO KHÔNG GIAM BANK LIỀN 🔥
+          </a>
+          <a
+            href="https://zalo.me/0877014100"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center rounded-xl border border-zinc-200 bg-white px-4 py-3 text-center text-xs font-bold shadow-sm transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+          >
+            🔥 NHẬN CHẠY SỰ KIỆN MỜI BẠN CFL 🔥
+          </a>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
