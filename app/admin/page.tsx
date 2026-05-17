@@ -61,7 +61,7 @@ export default function AdminDashboard() {
       }
     } catch (err: any) {
       alert(err.response?.data?.error || "Lỗi khi thêm mã code");
-    } finaly {
+    } finally {
       setActionLoading(false);
     }
   };
@@ -80,7 +80,7 @@ export default function AdminDashboard() {
       }
     } catch (err: any) {
       alert(err.response?.data?.error || "Lỗi khi xóa mã code");
-    } finaly {
+    } finally {
       setActionLoading(false);
     }
   };
@@ -100,7 +100,7 @@ export default function AdminDashboard() {
       }
     } catch (err: any) {
       alert(err.response?.data?.error || "Lỗi khi cập nhật thông báo");
-    } finaly {
+    } finally {
       setNoticeSaveLoading(false);
     }
   };
@@ -252,4 +252,3 @@ export default function AdminDashboard() {
     </div>
   );
 }
-
