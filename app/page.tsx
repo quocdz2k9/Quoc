@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Sun, Moon, Loader2, CheckCircle2, XCircle, Users, Award, ChevronDown, ChevronUp, Plus, Heart, Copy, Check } from "lucide-react";
+import { register } from "swiper/element/bundle";
 import { translations } from "@/utils/translations";
 import { LogResult, SavedAccount, SystemStats } from "./types/redeem";
 import SystemStatsBar from "./components/SystemStatsBar";
 import AccountModal from "./components/AccountModal";
+
+register();
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
@@ -25,6 +28,8 @@ export default function Home() {
   const [isDonateOpen, setIsDonateOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [stats, setStats] = useState<SystemStats | null>(null);
+
+  const swiperRef = useRef<any>(null);
 
   const syncAccountsToDatabase = async (count: number) => {
     try {
@@ -83,6 +88,43 @@ export default function Home() {
     trackVisitor();
     sendPing();
     initAccounts();
+
+    const swiperParams = {
+      slidesPerView: 1,
+      spaceBetween: 16,
+      loop: true,
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        clickable: true,
+        dynamicBullets: true,
+      },
+      injectStyles: [
+        `
+        .swiper-pagination-bullet {
+          background: #d4d4d8;
+          opacity: 0.6;
+        }
+        .swiper-pagination-bullet-active {
+          background: #18181b !important;
+          opacity: 1;
+        }
+        .dark .swiper-pagination-bullet {
+          background: #27272a;
+        }
+        .dark .swiper-pagination-bullet-active {
+          background: #f4f4f5 !important;
+        }
+        `,
+      ],
+    };
+
+    if (swiperRef.current) {
+      Object.assign(swiperRef.current, swiperParams);
+      swiperRef.current.initialize();
+    }
 
     const pingInterval = setInterval(sendPing, 25000);
     const statsInterval = setInterval(fetchSystemStats, 30000);
@@ -387,6 +429,27 @@ export default function Home() {
         </div>
       </nav>
       <main className="mx-auto max-w-2xl px-6 py-12">
+        <div className="mb-6 overflow-hidden rounded-2xl border border-zinc-200/60 bg-zinc-100 shadow-sm dark:border-zinc-800/60 dark:bg-zinc-900">
+          <swiper-container ref={swiperRef} init="false" class="w-full aspect-[686/294]">
+            <swiper-slide>
+              <img
+                src="https://cdn.omnirise.com/cms/CFL_top_banner_686x294_c980473d19.png?w=750&q=75"
+                alt="CFL Top Banner"
+                className="h-full w-full object-cover select-none"
+                loading="eager"
+              />
+            </swiper-slide>
+            <swiper-slide>
+              <img
+                src="https://cdn.omnirise.com/cms/CFL_bottom_banner_686x294_178521dbca.png?w=750&q=75"
+                alt="CFL Bottom Banner"
+                className="h-full w-full object-cover select-none"
+                loading="lazy"
+              />
+            </swiper-slide>
+          </swiper-container>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
