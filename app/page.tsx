@@ -41,9 +41,6 @@ export default function Home() {
   const [isDonateOpen, setIsDonateOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [stats, setStats] = useState<SystemStats | null>(null);
-  
-  const [banner1Loaded, setBanner1Loaded] = useState(false);
-  const [banner2Loaded, setBanner2Loaded] = useState(false);
 
   const swiperRef = useRef<any>(null);
 
@@ -460,31 +457,19 @@ export default function Home() {
         <div className="group relative mb-6 overflow-hidden rounded-2xl border border-zinc-200/60 bg-zinc-100 shadow-sm dark:border-zinc-800/60 dark:bg-zinc-900 aspect-[686/294]">
           <swiper-container ref={swiperRef} init="false" className="w-full h-full">
             <swiper-slide className="relative w-full h-full">
-              {!banner1Loaded && (
-                <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 animate-pulse flex items-center justify-center">
-                  <Loader2 className="w-6 h-6 animate-spin text-zinc-400 dark:text-zinc-500" />
-                </div>
-              )}
               <img
                 src="https://cdn.omnirise.com/cms/CFL_top_banner_686x294_c980473d19.png?w=750&q=75"
                 alt="CFL Top Banner"
-                className={`h-full w-full object-cover select-none transition-opacity duration-300 ${banner1Loaded ? "opacity-100" : "opacity-0"}`}
+                className="h-full w-full object-cover select-none"
                 loading="eager"
-                onLoad={() => setBanner1Loaded(true)}
               />
             </swiper-slide>
             <swiper-slide className="relative w-full h-full">
-              {!banner2Loaded && (
-                <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 animate-pulse flex items-center justify-center">
-                  <Loader2 className="w-6 h-6 animate-spin text-zinc-400 dark:text-zinc-500" />
-                </div>
-              )}
               <img
                 src="https://cdn.omnirise.com/cms/CFL_bottom_banner_686x294_178521dbca.png?w=750&q=75"
                 alt="CFL Bottom Banner"
-                className={`h-full w-full object-cover select-none transition-opacity duration-300 ${banner2Loaded ? "opacity-100" : "opacity-0"}`}
+                className="h-full w-full object-cover select-none"
                 loading="lazy"
-                onLoad={() => setBanner2Loaded(true)}
               />
             </swiper-slide>
           </swiper-container>
