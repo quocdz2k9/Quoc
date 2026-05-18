@@ -130,7 +130,7 @@ export default function Home() {
         }
         .dark .swiper-pagination-bullet-active {
           background: #f4f4f5 !important;
-          }
+        }
         `,
       ],
     };
@@ -197,6 +197,7 @@ export default function Home() {
         const updated = [...savedAccounts.filter(a => a.roleId !== newAcc.roleId), newAcc];
         setSavedAccounts(updated);
         localStorage.setItem("saved_accounts", JSON.stringify(updated));
+
         syncAccountsToDatabase(updated.length);
         fetchSystemStats();
 
@@ -210,7 +211,7 @@ export default function Home() {
       }
     } catch (error) {
       setModalError("Lỗi kết nối hệ thống khi check thông tin");
-    } finally {
+    } finaly {
       setModalLoading(false);
     }
   };
@@ -436,11 +437,12 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 font-sans text-zinc-900 transition-colors duration-200 dark:bg-black dark:text-zinc-100">
-      <nav className="mx-auto flex max-w-2xl items-center justify-between px-6 py-6 border-b border-zinc-100 dark:border-zinc-900/60">
+    <div className="grid grid-cols-[1fr_minmax(1rem,4rem)_auto_minmax(1rem,4rem)_1fr] grid-rows-[auto_1px_auto_1px_1fr] min-h-screen font-sans text-zinc-900 transition-colors duration-200 dark:text-zinc-100 bg-transparent">
+      
+      <header className="col-start-3 row-start-1 w-full max-w-2xl mx-auto flex items-center justify-between px-4 py-5">
         <div className="flex flex-col gap-1">
-          <span className="text-sm font-semibold tracking-wider uppercase opacity-80">
-            CFL Tool
+          <span className="text-xs font-bold tracking-widest uppercase opacity-80 text-gray-900 dark:text-white">
+            CFL Tool Blueprint
           </span>
           <SystemStatsBar stats={stats} />
         </div>
@@ -462,249 +464,246 @@ export default function Home() {
             {darkMode ? <Sun size={14} /> : <Moon size={14} />}
           </button>
         </div>
-      </nav>
-      <main className="mx-auto max-w-2xl px-6 py-12">
-        <div className="group relative mb-3 overflow-hidden rounded-2xl border border-zinc-200/60 bg-zinc-100 shadow-sm dark:border-zinc-800/60 dark:bg-zinc-900 aspect-[686/294]">
-          <swiper-container ref={swiperRef} init="false" className="w-full h-full">
-            <swiper-slide className="relative w-full h-full">
-              <img
-                src="https://cdn.omnirise.com/cms/CFL_top_banner_686x294_c980473d19.png?w=750&q=75"
-                alt="CFL Top Banner"
-                className="h-full w-full object-cover select-none"
-                loading="eager"
-              />
-            </swiper-slide>
-            <swiper-slide className="relative w-full h-full">
-              <img
-                src="https://cdn.omnirise.com/cms/CFL_bottom_banner_686x294_178521dbca.png?w=750&q=75"
-                alt="CFL Bottom Banner"
-                className="h-full w-full object-cover select-none"
-                loading="lazy"
-              />
-            </swiper-slide>
-          </swiper-container>
+      </header>
 
-          <button
-            type="button"
-            onClick={handlePrevBanner}
-            className="absolute left-3 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-xl border border-zinc-200/80 bg-white/90 text-zinc-700 backdrop-blur-sm shadow-sm outline-none transition-all opacity-0 group-hover:opacity-100 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/90 dark:text-zinc-300 dark:hover:bg-zinc-800"
-            aria-label="Previous slide"
-          >
-            <ChevronLeft size={16} />
-          </button>
-          <button
-            type="button"
-            onClick={handleNextBanner}
-            className="absolute right-3 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-xl border border-zinc-200/80 bg-white/90 text-zinc-700 backdrop-blur-sm shadow-sm outline-none transition-all opacity-0 group-hover:opacity-100 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/90 dark:text-zinc-300 dark:hover:bg-zinc-800"
-            aria-label="Next slide"
-          >
-            <ChevronRight size={16} />
-          </button>
-        </div>
+      <div className="col-span-full row-start-2 h-px bg-(--pattern-fg)"></div>
 
-        <div className="mb-6 grid grid-cols-1 gap-2 sm:grid-cols-2">
-          <a
-            href="https://zalo.me/0877014100"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center rounded-xl border border-zinc-200 bg-white px-4 py-3 text-center text-xs font-bold shadow-sm transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
-          >
-            🔥 THU MUA NICK CFL GIÁ CAO KHÔNG GIAM BANK LIỀN 🔥
-          </a>
-          <a
-            href="https://zalo.me/0877014100"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center rounded-xl border border-zinc-200 bg-white px-4 py-3 text-center text-xs font-bold shadow-sm transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
-          >
-            🔥 NHẬN CHẠY SỰ KIỆN MỜI BẠN CFL 🔥
-          </a>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                ID Nhân vật
-              </label>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={handleAddIdInput}
-                  className="flex items-center gap-1 text-xs font-medium text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2 py-1 bg-white dark:bg-zinc-900 outline-none hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
-                >
-                  <Plus size={12} />
-                  Thêm ô nhập ID
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setModalError("");
-                    setModalSuccess("");
-                    setIsModalOpen(true);
-                  }}
-                  className="flex items-center gap-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1 bg-white dark:bg-zinc-900 outline-none"
-                >
-                  <Users size={12} />
-                  Danh Sách ID ({savedAccounts.length} ID)
-                </button>
-              </div>
-            </div>
-            <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
-              {roleIds.map((id, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <input
-                    type="text"
-                    required
-                    disabled={loading}
-                    value={id}
-                    onChange={(e) => handleIdInputChange(index, e.target.value)}
-                    placeholder={`Nhập ID nhân vật thứ ${index + 1}...`}
-                    className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-base outline-none transition-all placeholder-zinc-400 dark:placeholder-zinc-500 focus:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900 dark:focus:border-zinc-700"
-                  />
-                  {index > 0 && (
-                    <button
-                      type="button"
-                      disabled={loading}
-                      onClick={() => handleRemoveIdInput(index)}
-                      className="p-3 text-xs font-medium text-red-500 border border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900 outline-none hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors shrink-0 disabled:opacity-40"
-                    >
-                      Xóa
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
+      <main className="col-start-3 row-start-3 w-full max-w-2xl mx-auto px-4 py-8 bg-gray-100/60 dark:bg-white/5 border-x border-b border-(--pattern-fg) shadow-2xl backdrop-blur-md rounded-b-2xl">
+        <div className="rounded-xl bg-white p-6 sm:p-8 shadow-sm dark:bg-gray-950 border border-zinc-200/50 dark:border-zinc-800/40">
+          
+          <div className="group relative mb-6 overflow-hidden rounded-2xl border border-zinc-200/60 bg-zinc-100 shadow-sm dark:border-zinc-800/60 dark:bg-zinc-900 aspect-[686/294]">
+            <swiper-container ref={swiperRef} init="false" className="w-full h-full">
+              <swiper-slide className="relative w-full h-full">
+                <img
+                  src="https://cdn.omnirise.com/cms/CFL_top_banner_686x294_c980473d19.png?w=750&q=75"
+                  alt="CFL Top Banner"
+                  className="h-full w-full object-cover select-none"
+                  loading="eager"
+                />
+              </swiper-slide>
+              <swiper-slide className="relative w-full h-full">
+                <img
+                  src="https://cdn.omnirise.com/cms/CFL_bottom_banner_686x294_178521dbca.png?w=750&q=75"
+                  alt="CFL Bottom Banner"
+                  className="h-full w-full object-cover select-none"
+                  loading="lazy"
+                />
+              </swiper-slide>
+            </swiper-container>
+            <button
+              type="button"
+              onClick={handlePrevBanner}
+              className="absolute left-3 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-xl border border-zinc-200/80 bg-white/90 text-zinc-700 backdrop-blur-sm shadow-sm outline-none transition-all opacity-0 group-hover:opacity-100 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/90 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button
+              type="button"
+              onClick={handleNextBanner}
+              className="absolute right-3 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-xl border border-zinc-200/80 bg-white/90 text-zinc-700 backdrop-blur-sm shadow-sm outline-none transition-all opacity-0 group-hover:opacity-100 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/90 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              aria-label="Next slide"
+            >
+              <ChevronRight size={16} />
+            </button>
           </div>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label htmlFor="codes" className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                Danh sách Giftcode (Mỗi dòng 1 code)
-              </label>
-              <button
-                type="button"
-                disabled={loading}
-                onClick={handleInsertPresetCodes}
-                className="flex items-center gap-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1 bg-white dark:bg-zinc-900 outline-none disabled:opacity-40"
-              >
-                <Award size={12} />
-                Sử dụng Code Sẵn
-              </button>
-            </div>
-            <div className="relative">
-              <textarea
-                id="codes"
-                required
-                rows={isCodesExpanded ? 16 : 6}
-                disabled={loading}
-                value={codes}
-                onChange={(e) => setCodes(e.target.value)}
-                placeholder="Mã CODE 1&#10;Mã CODE 2&#10;Mã CODE 3..."
-                className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 font-mono text-base outline-none transition-all placeholder-zinc-400 dark:placeholder-zinc-500 focus:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900 dark:focus:border-zinc-700 resize-none overflow-y-auto"
-              />
-              {shouldShowToggle && (
-                <div className="absolute bottom-3 right-3 flex items-center z-10">
+
+          <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <a
+              href="https://zalo.me/0877014100"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50/50 dark:bg-zinc-900/40 px-4 py-3 text-center text-xs font-bold shadow-sm transition-all hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+            >
+              🔥 THU MUA NICK CFL GIÁ CAO KHÔNG GIAM BANK LIỀN 🔥
+            </a>
+            <a
+              href="https://zalo.me/0877014100"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50/50 dark:bg-zinc-900/40 px-4 py-3 text-center text-xs font-bold shadow-sm transition-all hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+            >
+              🔥 NHẬN CHẠY SỰ KIỆN MỜI BẠN CFL 🔥
+            </a>
+          </div>
+
+          <hr className="my-6 w-full border-(--pattern-fg)" />
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                  ID Nhân vật
+                </label>
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => setIsCodesExpanded(!isCodesExpanded)}
-                    className="flex items-center gap-1 text-[11px] font-semibold tracking-wide uppercase px-2.5 py-1.5 rounded-xl border border-zinc-200/80 bg-white/90 text-zinc-600 backdrop-blur-sm shadow-sm outline-none transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/90 dark:text-zinc-400 dark:hover:bg-zinc-800"
+                    onClick={handleAddIdInput}
+                    className="flex items-center gap-1 text-xs font-medium text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2 py-1 bg-white dark:bg-zinc-900 outline-none hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
                   >
-                    {isCodesExpanded ? (
-                      <>
-                        Thu gọn <ChevronUp size={12} />
-                      </>
-                    ) : (
-                      <>
-                        Xem thêm ({totalLines} dòng) <ChevronDown size={12} />
-                      </>
-                    )}
+                    <Plus size={12} />
+                    Thêm ô nhập ID
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setModalError("");
+                      setModalSuccess("");
+                      setIsModalOpen(true);
+                    }}
+                    className="flex items-center gap-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1 bg-white dark:bg-zinc-900 outline-none"
+                  >
+                    <Users size={12} />
+                    Danh Sách ID ({savedAccounts.length} ID)
                   </button>
                 </div>
-              )}
-            </div>
-          </div>
-          <button
-            type="submit"
-            disabled={loading || roleIds.filter(id => id.trim() !== "").length === 0 || !codes.trim()}
-            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-5 py-4 text-sm font-medium text-white transition-opacity disabled:opacity-40 dark:bg-zinc-100 dark:text-black"
-          >
-            {loading ? (
-              <>
-                <Loader2 size={16} className="animate-spin" />
-                Đang tiến hành nhập code...
-              </>
-            ) : (
-              "Bắt đầu kích hoạt"
-            )}
-          </button>
-        </form>
-        {results.length > 0 && (
-          <div className="mt-12 space-y-3">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-200 pb-2 dark:border-zinc-800">
-              <div className="flex items-center gap-2">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                  Tiến trình thực hiện
-                </h3>
-                <span className="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 animate-pulse select-none">
-                  (Vuốt ngang để xem hết)
-                </span>
               </div>
-              <div className="flex items-center gap-2.5 text-[11px] font-mono font-bold uppercase tracking-wide">
-                <span className="text-zinc-500 dark:text-zinc-400">Tổng: {currentTotal}</span>
-                <span className="text-emerald-600 dark:text-emerald-400">Thành công: {currentSuccess}</span>
-                <span className="text-red-500 dark:text-red-400">Thất bại: {currentError}</span>
-              </div>
-            </div>
-            <div className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900 shadow-sm overflow-x-auto scrollbar-thin">
-              <div className="space-y-2 font-mono text-xs relative min-w-[500px]">
-                {visibleResults.map((res, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between gap-x-4 border-b border-zinc-100 py-2.5 last:border-0 dark:border-zinc-800/50"
-                  >
-                    <div className="flex items-center gap-2 min-w-0 pr-2">
-                      <span className="text-zinc-500 dark:text-zinc-400 shrink-0">[{res.time}]</span>
-                      <span className="font-semibold text-zinc-900 dark:text-zinc-100 shrink-0">{res.code.split("_")[1] || res.code}</span>
-                      <span className="text-zinc-400 dark:text-zinc-500 shrink-0">-</span>
-                      <span className="text-zinc-600 dark:text-zinc-400 break-all">{res.message}</span>
-                    </div>
-                    <div className="flex items-center shrink-0 pl-2">
-                      {res.status === "success" && (
-                        <CheckCircle2 size={14} className="text-green-500" />
-                      )}
-                      {res.status === "error" && (
-                        <XCircle size={14} className="text-red-500" />
-                      )}
-                      {res.status === "pending" && (
-                        <Loader2 size={14} className="animate-spin text-zinc-400" />
-                      )}
-                    </div>
+              <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+                {roleIds.map((id, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      required
+                      disabled={loading}
+                      value={id}
+                      onChange={(e) => handleIdInputChange(index, e.target.value)}
+                      placeholder={`Nhập ID nhân vật thứ ${index + 1}...`}
+                      className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-base outline-none transition-all placeholder-zinc-400 dark:placeholder-zinc-500 focus:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900 dark:focus:border-zinc-700"
+                    />
+                    {index > 0 && (
+                      <button
+                        type="button"
+                        disabled={loading}
+                        onClick={() => handleRemoveIdInput(index)}
+                        className="p-3 text-xs font-medium text-red-500 border border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900 outline-none hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors shrink-0 disabled:opacity-40"
+                      >
+                        Xóa
+                      </button>
+                    )}
                   </div>
                 ))}
-                {shouldShowLogsToggle && (
-                  <div className="pt-3 flex justify-center border-t border-zinc-100 dark:border-zinc-800/50 mt-2 sticky left-0 right-0">
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label htmlFor="codes" className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                  Danh sách Giftcode (Mỗi dòng 1 code)
+                </label>
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={handleInsertPresetCodes}
+                  className="flex items-center gap-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1 bg-white dark:bg-zinc-900 outline-none disabled:opacity-40"
+                >
+                  <Award size={12} />
+                  Sử dụng Code Sẵn
+                </button>
+              </div>
+              <div className="relative">
+                <textarea
+                  id="codes"
+                  required
+                  rows={isCodesExpanded ? 16 : 6}
+                  disabled={loading}
+                  value={codes}
+                  onChange={(e) => setCodes(e.target.value)}
+                  placeholder="Mã CODE 1&#10;Mã CODE 2&#10;Mã CODE 3..."
+                  className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 font-mono text-base outline-none transition-all placeholder-zinc-400 dark:placeholder-zinc-500 focus:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900 dark:focus:border-zinc-700 resize-none overflow-y-auto"
+                />
+                {shouldShowToggle && (
+                  <div className="absolute bottom-3 right-3 flex items-center z-10">
                     <button
                       type="button"
-                      onClick={() => setIsLogsExpanded(!isLogsExpanded)}
-                      className="flex items-center gap-1 text-[11px] font-semibold tracking-wide uppercase px-3 py-1.5 rounded-xl border border-zinc-200 bg-white text-zinc-600 shadow-sm outline-none transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800"
+                      onClick={() => setIsCodesExpanded(!isCodesExpanded)}
+                      className="flex items-center gap-1 text-[11px] font-semibold tracking-wide uppercase px-2.5 py-1.5 rounded-xl border border-zinc-200/80 bg-white/90 text-zinc-600 backdrop-blur-sm shadow-sm outline-none transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/90 dark:text-zinc-400 dark:hover:bg-zinc-800"
                     >
-                      {isLogsExpanded ? (
-                        <>
-                          Thu gọn dòng log <ChevronUp size={12} />
-                        </>
+                      {isCodesExpanded ? (
+                        <>Thu gọn <ChevronUp size={12} /></>
                       ) : (
-                        <>
-                          Xem thêm ({currentTotal - 6} dòng log) <ChevronDown size={12} />
-                        </>
+                        <>Xem thêm ({totalLines} dòng) <ChevronDown size={12} /></>
                       )}
                     </button>
                   </div>
                 )}
               </div>
             </div>
-          </div>
-        )}
+
+            <button
+              type="submit"
+              disabled={loading || roleIds.filter(id => id.trim() !== "").length === 0 || !codes.trim()}
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-5 py-4 text-sm font-medium text-white transition-opacity disabled:opacity-40 dark:bg-zinc-100 dark:text-black cursor-pointer"
+            >
+              {loading ? (
+                <><Loader2 size={16} className="animate-spin" /> Đang tiến hành nhập code... </>
+              ) : (
+                "Bắt đầu kích hoạt"
+              )}
+            </button>
+          </form>
+
+          {results.length > 0 && (
+            <div className="mt-8 space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-(--pattern-fg) pb-2">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                    Tiến trình thực hiện
+                  </h3>
+                  <span className="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 animate-pulse select-none">
+                    (Vuốt ngang để xem hết)
+                  </span>
+                </div>
+                <div className="flex items-center gap-2.5 text-[11px] font-mono font-bold uppercase tracking-wide">
+                  <span className="text-zinc-500 dark:text-zinc-400">Tổng: {currentTotal}</span>
+                  <span className="text-emerald-600 dark:text-emerald-400">Thành công: {currentSuccess}</span>
+                  <span className="text-red-500 dark:text-red-400">Thất bại: {currentError}</span>
+                </div>
+              </div>
+              <div className="rounded-2xl border border-zinc-200 bg-zinc-50/50 dark:bg-zinc-900/20 p-4 dark:border-zinc-800 shadow-sm overflow-x-auto scrollbar-thin">
+                <div className="space-y-2 font-mono text-xs relative min-w-[500px]">
+                  {visibleResults.map((res, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between gap-x-4 border-b border-zinc-100 py-2.5 last:border-0 dark:border-zinc-800/50"
+                    >
+                      <div className="flex items-center gap-2 min-w-0 pr-2">
+                        <span className="text-zinc-500 dark:text-zinc-400 shrink-0">[{res.time}]</span>
+                        <span className="font-semibold text-zinc-900 dark:text-zinc-100 shrink-0">{res.code.split("_")[1] || res.code}</span>
+                        <span className="text-zinc-400 dark:text-zinc-500 shrink-0">-</span>
+                        <span className="text-zinc-600 dark:text-zinc-400 break-all">{res.message}</span>
+                      </div>
+                      <div className="flex items-center shrink-0 pl-2">
+                        {res.status === "success" && <CheckCircle2 size={14} className="text-green-500" />}
+                        {res.status === "error" && <XCircle size={14} className="text-red-500" />}
+                        {res.status === "pending" && <Loader2 size={14} className="animate-spin text-zinc-400" />}
+                      </div>
+                    </div>
+                  ))}
+                  {shouldShowLogsToggle && (
+                    <div className="pt-3 flex justify-center border-t border-zinc-100 dark:border-zinc-800/50 mt-2 sticky left-0 right-0">
+                      <button
+                        type="button"
+                        onClick={() => setIsLogsExpanded(!isLogsExpanded)}
+                        className="flex items-center gap-1 text-[11px] font-semibold tracking-wide uppercase px-3 py-1.5 rounded-xl border border-zinc-200 bg-white text-zinc-600 shadow-sm outline-none transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800"
+                      >
+                        {isLogsExpanded ? (
+                          <>Thu gọn dòng log <ChevronUp size={12} /></>
+                        ) : (
+                          <>Xem thêm ({currentTotal - 6} dòng log) <ChevronDown size={12} /></>
+                        )}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+        </div>
       </main>
+
+      <div className="col-span-full row-start-4 h-px bg-(--pattern-fg)"></div>
+
       {isDonateOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
           <div className="w-full max-w-sm rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 shadow-xl transition-all">
@@ -766,6 +765,7 @@ export default function Home() {
           </div>
         </div>
       )}
+
       <AccountModal
         isOpen={isModalOpen}
         onClose={() => {
@@ -784,7 +784,7 @@ export default function Home() {
         onDeleteAccount={handleDeleteAccount}
         onPasteId={handlePasteId}
       />
-      
+
       <NoticeModal />
     </div>
   );
